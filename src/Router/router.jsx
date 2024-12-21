@@ -10,6 +10,8 @@ import My_Marathon_List from "../pages/My_Marathon_List";
 import ErrorPage from "../components/ErrorPage";
 import Login from "../components/Login";
 import Register from "../components/Register";
+import PrivateRoute from "./PrivateRoute";
+import MarathonDetails from "../components/MarathonDetails";
 
 
     const router = createBrowserRouter([
@@ -21,18 +23,19 @@ import Register from "../components/Register";
             {
                   path: '/',
                   element: <Home></Home>,
+                  
             },
             {
                   path: 'addMarathon',
-                  element: <Add_Marathon></Add_Marathon>,
+                  element: <PrivateRoute><Add_Marathon></Add_Marathon></PrivateRoute>,
             },
             {
                   path: 'myApplyList',
-                  element: <My_Apply_List></My_Apply_List>,
+                  element: <PrivateRoute><My_Apply_List></My_Apply_List></PrivateRoute>,
             },
             {
                   path: 'myMarathonList',
-                  element: <My_Marathon_List></My_Marathon_List>,
+                  element: <PrivateRoute><My_Marathon_List></My_Marathon_List></PrivateRoute>,
             },
             {
                   path: 'login',
@@ -41,6 +44,10 @@ import Register from "../components/Register";
             {
                   path: 'register',
                   element:<Register></Register>
+            },
+            {
+                  path:"/marathons/:id",
+                  element:<MarathonDetails></MarathonDetails>
             },
         ]
       },
