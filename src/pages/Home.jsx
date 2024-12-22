@@ -1,14 +1,14 @@
 import React from 'react';
 import Slider from '../components/Slider';
 import MarathonSection from '../components/MarathonSection';
-import UpcomeingMarathon from '../components/UpcomeingMarathon';
+import UpcomingMarathon from '../components/UpcomingMarathon';
 
 const Home = () => {
       return (
             <div>
                  <Slider></Slider>
                  <MarathonSection></MarathonSection>
-                 <UpcomeingMarathon></UpcomeingMarathon>
+                 <UpcomingMarathon></UpcomingMarathon>
             </div>
       );
 };

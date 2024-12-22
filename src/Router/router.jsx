@@ -47,7 +47,10 @@ import MarathonDetails from "../components/MarathonDetails";
             },
             {
                   path:"/marathons/:id",
-                  element:<MarathonDetails></MarathonDetails>
+                  element:<PrivateRoute>
+                        path:"/marathons/:id",
+                        element:<MarathonDetails></MarathonDetails>
+                  </PrivateRoute>
             },
         ]
       },
