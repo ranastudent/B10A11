@@ -12,6 +12,8 @@ import Login from "../components/Login";
 import Register from "../components/Register";
 import PrivateRoute from "./PrivateRoute";
 import MarathonDetails from "../components/MarathonDetails";
+import MarathonsPage from "../pages/MarathonsPage";
+import RegistrationForm from "../components/RegistrationForm";
 
 
     const router = createBrowserRouter([
@@ -48,10 +50,19 @@ import MarathonDetails from "../components/MarathonDetails";
             {
                   path:"/marathons/:id",
                   element:<PrivateRoute>
-                        path:"/marathons/:id",
-                        element:<MarathonDetails></MarathonDetails>
+                       
+                        <MarathonDetails></MarathonDetails>
                   </PrivateRoute>
             },
+            {
+                  path:"marathonsPage",
+                  element:<PrivateRoute><MarathonsPage></MarathonsPage></PrivateRoute>
+            },
+            {
+                  path:"/register/:id",
+                  element:<PrivateRoute><RegistrationForm></RegistrationForm></PrivateRoute>
+            },
+          
         ]
       },
     ]);

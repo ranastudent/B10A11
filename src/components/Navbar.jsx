@@ -39,6 +39,8 @@ const Navbar = () => {
               <NavLink to='myMarathonList'>My Marathon List</NavLink>
             </li>
             <li><NavLink to='myApplyList'>My Apply List</NavLink></li>
+            <li><NavLink to='marathonsPage'>Marathons Page</NavLink></li>
+            
           </ul>
         </div>
         <a className="btn btn-ghost text-xl"><img className='w-20 h-20 rounded-full' src="https://i.ibb.co.com/wsstjjC/marathon-logo-silhouette-sport-free-vector.jpg" alt="" /></a>
@@ -51,6 +53,8 @@ const Navbar = () => {
             <NavLink to='myMarathonList'>My Marathon List</NavLink>
           </li>
           <li><NavLink to='myApplyList'>My Apply List</NavLink></li>
+          <li><NavLink to='marathonsPage'>Marathons Page</NavLink></li>
+          
         </ul>
       </div>
       <div className="navbar-end space-x-2">
