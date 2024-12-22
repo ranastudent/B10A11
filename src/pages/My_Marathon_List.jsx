@@ -13,12 +13,10 @@ const My_Marathon_List = () => {
     const fetchMarathons = async () => {
       try {
         const response = await axios.get(`http://localhost:5000/marathons?createdBy=${user.email}`);
-        console.log(response.data)
         setMarathons(response.data);
       } catch (error) {
         console.error('Error fetching marathons:', error);
       }
-      console.log(marathons)
     };
 
     fetchMarathons();
@@ -28,7 +26,6 @@ const My_Marathon_List = () => {
     setSelectedMarathon(marathon);
     setIsModalOpen(true);
   };
-  
 
   const handleDelete = async (id) => {
     try {
@@ -55,29 +52,28 @@ const My_Marathon_List = () => {
   };
 
   const handleModalSubmit = async (e) => {
-      e.preventDefault();
-      try {
-        const updatedMarathon = { ...selectedMarathon };
-        delete updatedMarathon._id; // Remove the _id field from the update object
-        await axios.put(`http://localhost:5000/marathons/${selectedMarathon._id}`, updatedMarathon);
-        setMarathons(marathons.map((marathon) => (marathon._id === selectedMarathon._id ? selectedMarathon : marathon)));
-        handleModalClose();
-        Swal.fire({
-          icon: 'success',
-          title: 'Updated!',
-          text: 'Marathon has been updated.',
-        });
-      } catch (error) {
-        console.error('Error updating marathon:', error);
-        Swal.fire({
-          icon: 'error',
-          title: 'Error!',
-          text: 'Failed to update marathon.',
-        });
-      }
-    };
-    
-    
+    e.preventDefault();
+    try {
+      const updatedMarathon = { ...selectedMarathon };
+      delete updatedMarathon._id; // Remove the _id field from the update object
+      await axios.put(`http://localhost:5000/marathons/${selectedMarathon._id}`, updatedMarathon);
+      setMarathons(marathons.map((marathon) => (marathon._id === selectedMarathon._id ? selectedMarathon : marathon)));
+      handleModalClose();
+      Swal.fire({
+        icon: 'success',
+        title: 'Updated!',
+        text: 'Marathon has been updated.',
+      });
+    } catch (error) {
+      console.error('Error updating marathon:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text: 'Failed to update marathon.',
+      });
+    }
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setSelectedMarathon({ ...selectedMarathon, [name]: value });

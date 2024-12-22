@@ -75,7 +75,7 @@ const UpcomingMarathon = () => {
             <h3 className="text-xl font-bold mb-2">{marathon.title}</h3>
             <p className="text-gray-700 mb-2">Location: {marathon.location}</p>
             <p className="text-gray-700 mb-4">Registration Dates: {marathon.registration_dates.start} to {marathon.registration_dates.end}</p>
-            <Link to={`/marathons/${marathon._id}`} className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">See Details</Link>
+            {/* <Link to={`/marathons/${marathon._id}`} className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">See Details</Link> */}
           </div>
         ))}
       </div>
