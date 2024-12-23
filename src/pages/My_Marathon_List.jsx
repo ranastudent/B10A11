@@ -6,13 +6,14 @@ import Swal from 'sweetalert2';
 const My_Marathon_List = () => {
   const { user } = useContext(AuthContext);
   const [marathons, setMarathons] = useState([]);
+  const [sortOrder, setSortOrder] = useState('desc'); // Default to descending order
   const [selectedMarathon, setSelectedMarathon] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchMarathons = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/marathons?createdBy=${user.email}`);
+        const response = await axios.get(`http://localhost:5000/marathons?createdBy=${user.email}&sortOrder=${sortOrder}`);
         setMarathons(response.data);
       } catch (error) {
         console.error('Error fetching marathons:', error);
@@ -20,7 +21,11 @@ const My_Marathon_List = () => {
     };
 
     fetchMarathons();
-  }, [user.email]);
+  }, [user.email, sortOrder]);
+
+  const handleSortOrderChange = (e) => {
+    setSortOrder(e.target.value);
+  };
 
   const handleUpdate = (marathon) => {
     setSelectedMarathon(marathon);
@@ -82,6 +87,13 @@ const My_Marathon_List = () => {
   return (
     <div className="container mx-auto mt-10">
       <h2 className="text-2xl font-bold mb-6">My Marathon List</h2>
+      <div className="mb-4">
+        <label className="block text-gray-700">Sort By</label>
+        <select value={sortOrder} onChange={handleSortOrderChange} className="w-full px-3 py-2 border rounded-lg focus:outline-none">
+          <option value="asc">Oldest to Newest</option>
+          <option value="desc">Newest to Oldest</option>
+        </select>
+      </div>
       <table className="min-w-full bg-white">
         <thead>
           <tr>

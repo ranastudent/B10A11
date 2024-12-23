@@ -2,17 +2,21 @@ import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../provider/AuthProvider';
 import Swal from 'sweetalert2';
+import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 
 const My_Apply_List = () => {
   const { user } = useContext(AuthContext);
   const [registrations, setRegistrations] = useState([]);
+  const [searchTitle, setSearchTitle] = useState('');
   const [selectedRegistration, setSelectedRegistration] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchRegistrations = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/registrations/${user.email}`);
+        const response = await axios.get(
+          `http://localhost:5000/registrations/${user.email}?title=${searchTitle}`
+        );
         setRegistrations(response.data);
       } catch (error) {
         console.error('Error fetching registrations:', error);
@@ -20,7 +24,11 @@ const My_Apply_List = () => {
     };
 
     fetchRegistrations();
-  }, [user.email]);
+  }, [user.email, searchTitle]);
+
+  const handleSearchChange = (e) => {
+    setSearchTitle(e.target.value);
+  };
 
   const handleUpdate = (registration) => {
     setSelectedRegistration(registration);
@@ -30,7 +38,9 @@ const My_Apply_List = () => {
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:5000/registrations/${id}`);
-      setRegistrations(registrations.filter((registration) => registration._id !== id));
+      setRegistrations(
+        registrations.filter((registration) => registration._id !== id)
+      );
       Swal.fire({
         icon: 'success',
         title: 'Deleted!',
@@ -55,9 +65,18 @@ const My_Apply_List = () => {
     e.preventDefault();
     try {
       const updatedRegistration = { ...selectedRegistration };
-      delete updatedRegistration._id; // Remove the _id field from the update object
-      await axios.put(`http://localhost:5000/registrations/${selectedRegistration._id}`, updatedRegistration);
-      setRegistrations(registrations.map((registration) => (registration._id === selectedRegistration._id ? selectedRegistration : registration)));
+      delete updatedRegistration._id;
+      await axios.put(
+        `http://localhost:5000/registrations/${selectedRegistration._id}`,
+        updatedRegistration
+      );
+      setRegistrations(
+        registrations.map((registration) =>
+          registration._id === selectedRegistration._id
+            ? selectedRegistration
+            : registration
+        )
+      );
       handleModalClose();
       Swal.fire({
         icon: 'success',
@@ -79,14 +98,29 @@ const My_Apply_List = () => {
     setSelectedRegistration({ ...selectedRegistration, [name]: value });
   };
 
+  const calculateTimeLeft = (startDate) => {
+    const now = new Date();
+    const targetDate = new Date(startDate);
+    const difference = targetDate - now;
+    return difference > 0 ? Math.floor(difference / 1000) : 0;
+  };
+
   return (
     <div className="container mx-auto mt-10">
       <h2 className="text-2xl font-bold mb-6">My Apply List</h2>
+      <input
+        type="text"
+        placeholder="Search by Title"
+        value={searchTitle}
+        onChange={handleSearchChange}
+        className="w-full px-3 py-2 border rounded-lg focus:outline-none mb-4"
+      />
       <table className="min-w-full bg-white">
         <thead>
           <tr>
             <th className="py-2 px-4 border-b">Marathon Title</th>
             <th className="py-2 px-4 border-b">Marathon Start Date</th>
+            <th className="py-2 px-4 border-b">Time Left</th>
             <th className="py-2 px-4 border-b">First Name</th>
             <th className="py-2 px-4 border-b">Last Name</th>
             <th className="py-2 px-4 border-b">Contact Number</th>
@@ -95,30 +129,61 @@ const My_Apply_List = () => {
           </tr>
         </thead>
         <tbody>
-          {registrations.map((registration) => (
-            <tr key={registration._id}>
-              <td className="py-2 px-4 border-b">{registration.marathonTitle}</td>
-              <td className="py-2 px-4 border-b">{registration.marathonStartDate}</td>
-              <td className="py-2 px-4 border-b">{registration.firstName}</td>
-              <td className="py-2 px-4 border-b">{registration.lastName}</td>
-              <td className="py-2 px-4 border-b">{registration.contactNumber}</td>
-              <td className="py-2 px-4 border-b">{registration.additionalInfo}</td>
-              <td className="py-2 px-4 border-b">
-                <button
-                  onClick={() => handleUpdate(registration)}
-                  className="bg-yellow-500 text-white py-1 px-3 rounded mr-2"
-                >
-                  Update
-                </button>
-                <button
-                  onClick={() => handleDelete(registration._id)}
-                  className="bg-red-500 text-white py-1 px-3 rounded"
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
+          {registrations.map((registration) => {
+            const durationInSeconds = calculateTimeLeft(
+              registration.marathonStartDate
+            );
+
+            return (
+              <tr key={registration._id}>
+                <td className="py-2 px-4 border-b">{registration.marathonTitle}</td>
+                <td className="py-2 px-4 border-b">{registration.marathonStartDate}</td>
+                <td className="py-2 px-4 border-b">
+                  {durationInSeconds > 0 ? (
+                    <CountdownCircleTimer
+                      isPlaying
+                      duration={durationInSeconds}
+                      colors={[['#A30000', 1]]}
+                    >
+                      {({ remainingTime }) => {
+                        const days = Math.floor(
+                          remainingTime / (60 * 60 * 24)
+                        );
+                        const hours = Math.floor(
+                          (remainingTime % (60 * 60 * 24)) / (60 * 60)
+                        );
+                        const minutes = Math.floor(
+                          (remainingTime % (60 * 60)) / 60
+                        );
+                        const seconds = remainingTime % 60;
+                        return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+                      }}
+                    </CountdownCircleTimer>
+                  ) : (
+                    <span>Marathon has started</span>
+                  )}
+                </td>
+                <td className="py-2 px-4 border-b">{registration.firstName}</td>
+                <td className="py-2 px-4 border-b">{registration.lastName}</td>
+                <td className="py-2 px-4 border-b">{registration.contactNumber}</td>
+                <td className="py-2 px-4 border-b">{registration.additionalInfo}</td>
+                <td className="py-2 px-4 border-b">
+                  <button
+                    onClick={() => handleUpdate(registration)}
+                    className="bg-yellow-500 text-white py-1 px-3 rounded mr-2"
+                  >
+                    Update
+                  </button>
+                  <button
+                    onClick={() => handleDelete(registration._id)}
+                    className="bg-red-500 text-white py-1 px-3 rounded"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
 
