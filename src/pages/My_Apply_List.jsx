@@ -3,6 +3,7 @@ import axios from 'axios';
 import { AuthContext } from '../provider/AuthProvider';
 import Swal from 'sweetalert2';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
+import { Helmet } from 'react-helmet';
 
 const My_Apply_List = () => {
   const { user } = useContext(AuthContext);
@@ -107,6 +108,7 @@ const My_Apply_List = () => {
 
   return (
     <div className="container mx-auto mt-10">
+       <Helmet> <title>My Apply List</title> </Helmet>
       <h2 className="text-2xl font-bold mb-6">My Apply List</h2>
       <input
         type="text"

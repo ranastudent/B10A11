@@ -4,6 +4,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { AuthContext } from '../provider/AuthProvider';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { Helmet } from 'react-helmet';
 
 
 const AddMarathon = () => {
@@ -51,7 +52,9 @@ const AddMarathon = () => {
   };
 
   return (
+    
     <div className="container mx-auto mt-10">
+      <Helmet> <title>Add Marathon - My Website</title> </Helmet>
       <h2 className="text-2xl font-bold mb-6">Add Marathon</h2>
       <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md">
         <div className="mb-4">

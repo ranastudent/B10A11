@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../provider/AuthProvider';
+import { Helmet } from 'react-helmet';
 
 const MarathonsPage = () => {
   const { user } = useContext(AuthContext);
@@ -25,7 +26,9 @@ const MarathonsPage = () => {
   }
 
   return (
+    
     <div className="container mx-auto mt-10">
+      <Helmet> <title>Marathon Page</title> </Helmet>
       <h2 className="text-2xl font-bold mb-6">All Marathons</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {marathons.map((marathon) => (

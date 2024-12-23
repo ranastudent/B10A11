@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../provider/AuthProvider';
 import Swal from 'sweetalert2';
+import { Helmet } from 'react-helmet';
 
 const My_Marathon_List = () => {
   const { user } = useContext(AuthContext);
@@ -86,6 +87,7 @@ const My_Marathon_List = () => {
 
   return (
     <div className="container mx-auto mt-10">
+       <Helmet> <title>My Marathon List</title> </Helmet>
       <h2 className="text-2xl font-bold mb-6">My Marathon List</h2>
       <div className="mb-4">
         <label className="block text-gray-700">Sort By</label>
