@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../provider/AuthProvider';
 import Swal from 'sweetalert2';
+import { Helmet } from 'react-helmet';
 
 const Register = () => {
   const { createUser } = useContext(AuthContext);
@@ -71,6 +72,9 @@ const Register = () => {
 
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-[#FFC0CB] rounded-lg shadow-md">
+      <Helmet>
+        <title>Register</title>
+      </Helmet>
       <h2 className="text-2xl font-bold mb-6">Register</h2>
       <form onSubmit={handleLogin}>
         <div className="mb-4">

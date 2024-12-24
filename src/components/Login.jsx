@@ -3,6 +3,7 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../provider/AuthProvider';
 import { FaGoogle } from "react-icons/fa";
 import Swal from 'sweetalert2';
+import { Helmet } from 'react-helmet';
 const Login = () => {
       const {login, googleLogin} = useContext(AuthContext)
       const navigate = useNavigate();
@@ -52,6 +53,9 @@ const Login = () => {
       }
       return (
             <div className="max-w-md mx-auto mt-10 p-6 bg-[#FFC0CB] rounded-lg shadow-md">
+                  <Helmet>
+                        <title>Login</title>
+                  </Helmet>
                   <h2 className="text-2xl font-bold mb-6">Login</h2>
                   <form onSubmit={handleLogin}>
                         <div className="mb-4">

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
+import { Helmet } from 'react-helmet';
 
 const MarathonDetails = () => {
   const { id } = useParams(); // Get marathon ID from URL
@@ -40,6 +41,9 @@ const MarathonDetails = () => {
 
   return (
     <div className="container mx-auto mt-10">
+      <Helmet>
+        <title>Marathon Details</title>
+      </Helmet>
       <h2 className="text-2xl font-bold mb-6">{marathon.title}</h2>
       <img src={marathon.image} alt={marathon.title} className="w-full h-64 object-cover mb-6" />
       <p className="text-gray-700 mb-2">Location: {marathon.location}</p>
