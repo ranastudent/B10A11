@@ -3,6 +3,7 @@ import axios from 'axios';
 import { AuthContext } from '../provider/AuthProvider';
 import Swal from 'sweetalert2';
 import { Helmet } from 'react-helmet';
+import useAxiosSecure from '../customHook/useAxiosSecure';
 
 const My_Marathon_List = () => {
   const { user } = useContext(AuthContext);
@@ -10,12 +11,17 @@ const My_Marathon_List = () => {
   const [sortOrder, setSortOrder] = useState('desc'); // Default to descending order
   const [selectedMarathon, setSelectedMarathon] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const axiosSecure = useAxiosSecure()
 
   useEffect(() => {
     const fetchMarathons = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/marathons?createdBy=${user.email}&sortOrder=${sortOrder}`,{withCredentials: true});
-        setMarathons(response.data);
+        // const response = await axios.get(`http://localhost:5000/marathons?createdBy=${user.email}&sortOrder=${sortOrder}`,{withCredentials: true});
+        // setMarathons(response.data);
+        const response = axiosSecure.get(`/marathons?createdBy=${user.email}&sortOrder=${sortOrder}`)
+        .then(response=>{
+          setMarathons(response.data)
+        })
       } catch (error) {
         console.error('Error fetching marathons:', error);
       }
