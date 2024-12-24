@@ -36,7 +36,7 @@ const AddMarathon = () => {
     };
 
     try {
-      const response = await axios.post('http://localhost:5000/marathons', marathonDetails);
+      const response = await axios.post('https://b10-a11-server-kohl.vercel.app/marathons', marathonDetails);
       Swal.fire({
         icon: 'success',
         title: 'Marathon created successfully!',

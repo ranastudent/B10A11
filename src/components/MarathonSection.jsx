@@ -8,7 +8,7 @@ const MarathonSection = () => {
   useEffect(() => {
     const fetchMarathons = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/marathons/limit/6');
+        const response = await axios.get('https://b10-a11-server-kohl.vercel.app/marathons/limit/6');
         setMarathons(response.data);
       } catch (error) {
         console.error('Error fetching marathons:', error);

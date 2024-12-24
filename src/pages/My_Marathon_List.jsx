@@ -16,7 +16,7 @@ const My_Marathon_List = () => {
   useEffect(() => {
     const fetchMarathons = async () => {
       try {
-        // const response = await axios.get(`http://localhost:5000/marathons?createdBy=${user.email}&sortOrder=${sortOrder}`,{withCredentials: true});
+        // const response = await axios.get(`https://b10-a11-server-kohl.vercel.app/marathons?createdBy=${user.email}&sortOrder=${sortOrder}`,{withCredentials: true});
         // setMarathons(response.data);
         const response = axiosSecure.get(`/marathons?createdBy=${user.email}&sortOrder=${sortOrder}`)
         .then(response=>{
@@ -41,7 +41,7 @@ const My_Marathon_List = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/marathons/${id}`);
+      await axios.delete(`https://b10-a11-server-kohl.vercel.app/marathons/${id}`);
       setMarathons(marathons.filter((marathon) => marathon._id !== id));
       Swal.fire({
         icon: 'success',
@@ -68,7 +68,7 @@ const My_Marathon_List = () => {
     try {
       const updatedMarathon = { ...selectedMarathon };
       delete updatedMarathon._id; // Remove the _id field from the update object
-      await axios.put(`http://localhost:5000/marathons/${selectedMarathon._id}`, updatedMarathon);
+      await axios.put(`https://b10-a11-server-kohl.vercel.app/marathons/${selectedMarathon._id}`, updatedMarathon);
       setMarathons(marathons.map((marathon) => (marathon._id === selectedMarathon._id ? selectedMarathon : marathon)));
       handleModalClose();
       Swal.fire({

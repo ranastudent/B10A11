@@ -29,7 +29,7 @@ const AuthProvider = ({ children }) => {
                                     loginTime: new Date().toISOString()
                               };
 
-                              fetch('http://localhost:5000/users', {
+                              fetch('https://b10-a11-server-kohl.vercel.app/users', {
                                     method: 'POST',
                                     headers: {
                                           'Content-Type': 'application/json',
@@ -65,7 +65,7 @@ const AuthProvider = ({ children }) => {
                   if (currentUser?.email) {
                         const user = {email: currentUser.email}
 
-                        axios.post('http://localhost:5000/jwt', user, {withCredentials: true})
+                        axios.post('https://b10-a11-server-kohl.vercel.app/jwt', user, {withCredentials: true})
                         .then(res=> {
                               console.log("login",res.data);
                               setLoading(false);
@@ -73,7 +73,7 @@ const AuthProvider = ({ children }) => {
                   }
                   else
                   {
-                        axios.post('http://localhost:5000/logout', {}, {
+                        axios.post('https://b10-a11-server-kohl.vercel.app/logout', {}, {
                               withCredentials: true
                         })
                         .then(res =>{

@@ -16,7 +16,9 @@ const RegistrationForm = () => {
   useEffect(() => {
     const fetchMarathonDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/marathons/${id}`);
+        const response = await axios.get(`https://b10-a11-server-kohl.vercel.app/marathons/${id}`,{
+          withCredentials:true
+        });
         setMarathon(response.data);
       } catch (error) {
         console.error('Error fetching marathon details:', error);
@@ -40,7 +42,7 @@ const RegistrationForm = () => {
     };
 
     try {
-      const response = await axios.post('http://localhost:5000/register', registrationDetails);
+      const response = await axios.post('https://b10-a11-server-kohl.vercel.app/register', registrationDetails);
       Swal.fire({
         icon: 'success',
         title: 'Registration Successful!',

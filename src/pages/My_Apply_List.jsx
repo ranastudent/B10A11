@@ -18,7 +18,7 @@ const My_Apply_List = () => {
     const fetchRegistrations = async () => {
       try {
         // const response = await axios.get(
-        //   `http://localhost:5000/registrations/${user.email}?title=${searchTitle}`,{
+        //   `https://b10-a11-server-kohl.vercel.app/registrations/${user.email}?title=${searchTitle}`,{
         //     withCredentials:true
         //   }
         // );
@@ -46,7 +46,7 @@ const My_Apply_List = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/registrations/${id}`);
+      await axios.delete(`https://b10-a11-server-kohl.vercel.app/registrations/${id}`);
       setRegistrations(
         registrations.filter((registration) => registration._id !== id)
       );
@@ -76,7 +76,7 @@ const My_Apply_List = () => {
       const updatedRegistration = { ...selectedRegistration };
       delete updatedRegistration._id;
       await axios.put(
-        `http://localhost:5000/registrations/${selectedRegistration._id}`,
+        `https://b10-a11-server-kohl.vercel.app/registrations/${selectedRegistration._id}`,
         updatedRegistration
       );
       setRegistrations(

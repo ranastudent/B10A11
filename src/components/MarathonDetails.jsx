@@ -12,7 +12,7 @@ const MarathonDetails = () => {
   useEffect(() => {
     const fetchMarathonDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/marathons/${id}`,{
+        const response = await axios.get(`https://b10-a11-server-kohl.vercel.app/marathons/${id}`,{
           withCredentials: true
         });
         setMarathon(response.data);
