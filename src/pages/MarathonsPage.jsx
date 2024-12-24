@@ -12,7 +12,7 @@ const MarathonsPage = () => {
   useEffect(() => {
     const fetchMarathons = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/marathons?sortOrder=${sortOrder}`);
+        const response = await axios.get(`http://localhost:5000/marathons?sortOrder=${sortOrder}`,{withCredentials: true});
         setMarathons(response.data);
       } catch (error) {
         console.error('Error fetching marathons:', error);

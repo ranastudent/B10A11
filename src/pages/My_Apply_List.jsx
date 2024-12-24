@@ -16,7 +16,9 @@ const My_Apply_List = () => {
     const fetchRegistrations = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/registrations/${user.email}?title=${searchTitle}`
+          `http://localhost:5000/registrations/${user.email}?title=${searchTitle}`,{
+            withCredentials:true
+          }
         );
         setRegistrations(response.data);
       } catch (error) {

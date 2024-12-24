@@ -12,7 +12,9 @@ const MarathonDetails = () => {
   useEffect(() => {
     const fetchMarathonDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/marathons/${id}`);
+        const response = await axios.get(`http://localhost:5000/marathons/${id}`,{
+          withCredentials: true
+        });
         setMarathon(response.data);
       } catch (error) {
         console.error('Error fetching marathon details:', error);
