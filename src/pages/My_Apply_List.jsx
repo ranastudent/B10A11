@@ -4,6 +4,7 @@ import { AuthContext } from '../provider/AuthProvider';
 import Swal from 'sweetalert2';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import { Helmet } from 'react-helmet';
+import useAxiosSecure from '../customHook/useAxiosSecure';
 
 const My_Apply_List = () => {
   const { user } = useContext(AuthContext);
@@ -11,16 +12,21 @@ const My_Apply_List = () => {
   const [searchTitle, setSearchTitle] = useState('');
   const [selectedRegistration, setSelectedRegistration] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
     const fetchRegistrations = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:5000/registrations/${user.email}?title=${searchTitle}`,{
-            withCredentials:true
-          }
-        );
-        setRegistrations(response.data);
+        // const response = await axios.get(
+        //   `http://localhost:5000/registrations/${user.email}?title=${searchTitle}`,{
+        //     withCredentials:true
+        //   }
+        // );
+        const response = axiosSecure.get(`/registrations/${user.email}?title=${searchTitle}`)
+        .then(response=>{
+          setRegistrations(response.data);
+        })
+        
       } catch (error) {
         console.error('Error fetching registrations:', error);
       }
