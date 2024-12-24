@@ -7,11 +7,12 @@ import { Helmet } from 'react-helmet';
 const MarathonsPage = () => {
   const { user } = useContext(AuthContext);
   const [marathons, setMarathons] = useState([]);
+  const [sortOrder, setSortOrder] = useState('desc'); // Default to descending order
 
   useEffect(() => {
     const fetchMarathons = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/marathons');
+        const response = await axios.get(`http://localhost:5000/marathons?sortOrder=${sortOrder}`);
         setMarathons(response.data);
       } catch (error) {
         console.error('Error fetching marathons:', error);
@@ -19,17 +20,29 @@ const MarathonsPage = () => {
     };
 
     fetchMarathons();
-  }, []);
+  }, [sortOrder]);
 
   if (!user) {
     return <div>Please log in to view the marathons.</div>;
   }
 
+  const handleSortOrderChange = (e) => {
+    setSortOrder(e.target.value);
+  };
+
   return (
-    
     <div className="container mx-auto mt-10">
-      <Helmet> <title>Marathon Page</title> </Helmet>
+      <Helmet>
+        <title>Marathon Page</title>
+      </Helmet>
       <h2 className="text-2xl font-bold mb-6">All Marathons</h2>
+      <div className="mb-4">
+        <label className="block text-gray-700">Sort By</label>
+        <select value={sortOrder} onChange={handleSortOrderChange} className="w-full px-3 py-2 border rounded-lg focus:outline-none">
+          <option value="asc">Oldest to Newest</option>
+          <option value="desc">Newest to Oldest</option>
+        </select>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {marathons.map((marathon) => (
           <div key={marathon._id} className="bg-white p-6 rounded-lg shadow-md">

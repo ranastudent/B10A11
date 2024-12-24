@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 
 const MarathonDetails = () => {
   const { id } = useParams(); // Get marathon ID from URL
@@ -28,6 +29,15 @@ const MarathonDetails = () => {
     new Date() >= new Date(marathon.startRegistrationDate) &&
     new Date() <= new Date(marathon.endRegistrationDate);
 
+  const calculateTimeLeft = (startDate) => {
+    const now = new Date();
+    const targetDate = new Date(startDate);
+    const difference = targetDate - now;
+    return difference > 0 ? Math.floor(difference / 1000) : 0;
+  };
+
+  const durationInSeconds = calculateTimeLeft(marathon.marathonStartDate);
+
   return (
     <div className="container mx-auto mt-10">
       <h2 className="text-2xl font-bold mb-6">{marathon.title}</h2>
@@ -37,6 +47,21 @@ const MarathonDetails = () => {
         Registration Dates: {marathon.startRegistrationDate} to {marathon.endRegistrationDate}
       </p>
       <p className="text-gray-700 mb-4">Total Registrations: {marathon.totalRegistrationCount}</p>
+
+      <div className="mb-6">
+        <CountdownCircleTimer
+          isPlaying
+          duration={durationInSeconds}
+          colors={[['#A30000', 1]]}
+        >
+          {({ remainingTime }) => {
+            const days = Math.floor(remainingTime / (60 * 60 * 24));
+            const hours = Math.floor((remainingTime % (60 * 60 * 24)) / (60 * 60));
+            const minutes = Math.floor((remainingTime % (60 * 60)) / 60);
+            return `${days}d ${hours}h ${minutes}m`;
+          }}
+        </CountdownCircleTimer>
+      </div>
 
       {isRegistrationOpen ? (
         <button
