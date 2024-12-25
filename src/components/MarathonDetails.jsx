@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
-import { Helmet } from 'react-helmet';
 
 const MarathonDetails = () => {
   const { id } = useParams(); // Get marathon ID from URL
   const [marathon, setMarathon] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const previousPage = queryParams.get('page') || 1;
 
   useEffect(() => {
     const fetchMarathonDetails = async () => {
       try {
-        const response = await axios.get(`https://b10-a11-server-kohl.vercel.app/marathons/${id}`,{
-          withCredentials: true
-        });
+        const response = await axios.get(`http://localhost:5000/marathons/${id}`);
         setMarathon(response.data);
       } catch (error) {
         console.error('Error fetching marathon details:', error);
@@ -43,9 +43,9 @@ const MarathonDetails = () => {
 
   return (
     <div className="container mx-auto mt-10">
-      <Helmet>
-        <title>Marathon Details</title>
-      </Helmet>
+      <button onClick={() => navigate(`/marathonsPage?page=${previousPage}`)} className="bg-gray-300 text-gray-700 py-2 px-4 rounded mb-4">
+        Back
+      </button>
       <h2 className="text-2xl font-bold mb-6">{marathon.title}</h2>
       <img src={marathon.image} alt={marathon.title} className="w-full h-64 object-cover mb-6" />
       <p className="text-gray-700 mb-2">Location: {marathon.location}</p>
