@@ -61,6 +61,7 @@ const Navbar = () => {
         {user ? (
           <>
             <div className="flex items-center space-x-2">
+            <button onClick={() => navigate('/dashboard')} className='btn'>Dashboard</button>
               <img
                 src={user.photoURL}
                 alt="User Avatar"

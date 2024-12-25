@@ -14,6 +14,7 @@ import PrivateRoute from "./PrivateRoute";
 import MarathonDetails from "../components/MarathonDetails";
 import MarathonsPage from "../pages/MarathonsPage";
 import RegistrationForm from "../components/RegistrationForm";
+import Dashboard from "../pages/Dashboard";
 
 
     const router = createBrowserRouter([
@@ -61,6 +62,10 @@ import RegistrationForm from "../components/RegistrationForm";
             {
                   path:"/register/:id",
                   element:<PrivateRoute><RegistrationForm></RegistrationForm></PrivateRoute>
+            },
+            {
+                  path:"dashboard",
+                  element:<PrivateRoute><Dashboard></Dashboard></PrivateRoute>
             },
           
         ]
