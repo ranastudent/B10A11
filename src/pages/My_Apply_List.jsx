@@ -17,16 +17,8 @@ const My_Apply_List = () => {
   useEffect(() => {
     const fetchRegistrations = async () => {
       try {
-        // const response = await axios.get(
-        //   `https://b10-a11-server-kohl.vercel.app/registrations/${user.email}?title=${searchTitle}`,{
-        //     withCredentials:true
-        //   }
-        // );
-        const response = axiosSecure.get(`/registrations/${user.email}?title=${searchTitle}`)
-        .then(response=>{
-          setRegistrations(response.data);
-        })
-        
+        const response = await axiosSecure.get(`/registrations/${user.email}?title=${searchTitle}`);
+        setRegistrations(response.data);
       } catch (error) {
         console.error('Error fetching registrations:', error);
       }
@@ -115,8 +107,10 @@ const My_Apply_List = () => {
   };
 
   return (
-    <div className="container mx-auto mt-10">
-       <Helmet> <title>My Apply List</title> </Helmet>
+    <div className="container mx-auto mt-10 px-4">
+      <Helmet>
+        <title>My Apply List</title>
+      </Helmet>
       <h2 className="text-2xl font-bold mb-6">My Apply List</h2>
       <input
         type="text"
@@ -125,81 +119,83 @@ const My_Apply_List = () => {
         onChange={handleSearchChange}
         className="w-full px-3 py-2 border rounded-lg focus:outline-none mb-4"
       />
-      <table className="min-w-full bg-white">
-        <thead>
-          <tr>
-            <th className="py-2 px-4 border-b">Marathon Title</th>
-            <th className="py-2 px-4 border-b">Marathon Start Date</th>
-            <th className="py-2 px-4 border-b">Time Left</th>
-            <th className="py-2 px-4 border-b">First Name</th>
-            <th className="py-2 px-4 border-b">Last Name</th>
-            <th className="py-2 px-4 border-b">Contact Number</th>
-            <th className="py-2 px-4 border-b">Additional Info</th>
-            <th className="py-2 px-4 border-b">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {registrations.map((registration) => {
-            const durationInSeconds = calculateTimeLeft(
-              registration.marathonStartDate
-            );
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white border-collapse border border-gray-300">
+          <thead>
+            <tr>
+              <th className="py-2 px-4 border">Marathon Title</th>
+              <th className="py-2 px-4 border">Marathon Start Date</th>
+              <th className="py-2 px-4 border">Time Left</th>
+              <th className="py-2 px-4 border">First Name</th>
+              <th className="py-2 px-4 border">Last Name</th>
+              <th className="py-2 px-4 border">Contact Number</th>
+              <th className="py-2 px-4 border">Additional Info</th>
+              <th className="py-2 px-4 border">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {registrations.map((registration) => {
+              const durationInSeconds = calculateTimeLeft(
+                registration.marathonStartDate
+              );
 
-            return (
-              <tr key={registration._id}>
-                <td className="py-2 px-4 border-b">{registration.marathonTitle}</td>
-                <td className="py-2 px-4 border-b">{registration.marathonStartDate}</td>
-                <td className="py-2 px-4 border-b">
-                  {durationInSeconds > 0 ? (
-                    <CountdownCircleTimer
-                      isPlaying
-                      duration={durationInSeconds}
-                      colors={[['#A30000', 1]]}
+              return (
+                <tr key={registration._id} className="text-center">
+                  <td className="py-2 px-4 border">{registration.marathonTitle}</td>
+                  <td className="py-2 px-4 border">{registration.marathonStartDate}</td>
+                  <td className="py-2 px-4 border">
+                    {durationInSeconds > 0 ? (
+                      <CountdownCircleTimer
+                        isPlaying
+                        duration={durationInSeconds}
+                        colors={[['#A30000', 1]]}
+                      >
+                        {({ remainingTime }) => {
+                          const days = Math.floor(
+                            remainingTime / (60 * 60 * 24)
+                          );
+                          const hours = Math.floor(
+                            (remainingTime % (60 * 60 * 24)) / (60 * 60)
+                          );
+                          const minutes = Math.floor(
+                            (remainingTime % (60 * 60)) / 60
+                          );
+                          const seconds = remainingTime % 60;
+                          return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+                        }}
+                      </CountdownCircleTimer>
+                    ) : (
+                      <span>Marathon has started</span>
+                    )}
+                  </td>
+                  <td className="py-2 px-4 border">{registration.firstName}</td>
+                  <td className="py-2 px-4 border">{registration.lastName}</td>
+                  <td className="py-2 px-4 border">{registration.contactNumber}</td>
+                  <td className="py-2 px-4 border">{registration.additionalInfo}</td>
+                  <td className="py-2 px-4 border">
+                    <button
+                      onClick={() => handleUpdate(registration)}
+                      className="bg-yellow-500 text-white py-1 px-3 rounded mr-2 hover:bg-yellow-600"
                     >
-                      {({ remainingTime }) => {
-                        const days = Math.floor(
-                          remainingTime / (60 * 60 * 24)
-                        );
-                        const hours = Math.floor(
-                          (remainingTime % (60 * 60 * 24)) / (60 * 60)
-                        );
-                        const minutes = Math.floor(
-                          (remainingTime % (60 * 60)) / 60
-                        );
-                        const seconds = remainingTime % 60;
-                        return `${days}d ${hours}h ${minutes}m ${seconds}s`;
-                      }}
-                    </CountdownCircleTimer>
-                  ) : (
-                    <span>Marathon has started</span>
-                  )}
-                </td>
-                <td className="py-2 px-4 border-b">{registration.firstName}</td>
-                <td className="py-2 px-4 border-b">{registration.lastName}</td>
-                <td className="py-2 px-4 border-b">{registration.contactNumber}</td>
-                <td className="py-2 px-4 border-b">{registration.additionalInfo}</td>
-                <td className="py-2 px-4 border-b">
-                  <button
-                    onClick={() => handleUpdate(registration)}
-                    className="bg-yellow-500 text-white py-1 px-3 rounded mr-2"
-                  >
-                    Update
-                  </button>
-                  <button
-                    onClick={() => handleDelete(registration._id)}
-                    className="bg-red-500 text-white py-1 px-3 rounded"
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+                      Update
+                    </button>
+                    <button
+                      onClick={() => handleDelete(registration._id)}
+                      className="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
 
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-10/12">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-10/12 max-w-lg">
             <h2 className="text-2xl font-bold mb-4">Update Registration</h2>
             <form onSubmit={handleModalSubmit}>
               <div className="mb-4">

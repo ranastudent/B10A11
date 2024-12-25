@@ -11,24 +11,20 @@ const My_Marathon_List = () => {
   const [sortOrder, setSortOrder] = useState('desc'); // Default to descending order
   const [selectedMarathon, setSelectedMarathon] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const axiosSecure = useAxiosSecure()
+  const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
     const fetchMarathons = async () => {
       try {
-        // const response = await axios.get(`https://b10-a11-server-kohl.vercel.app/marathons?createdBy=${user.email}&sortOrder=${sortOrder}`,{withCredentials: true});
-        // setMarathons(response.data);
-        const response = axiosSecure.get(`/marathons?createdBy=${user.email}&sortOrder=${sortOrder}`)
-        .then(response=>{
-          setMarathons(response.data)
-        })
+        const response = await axiosSecure.get(`/marathons?createdBy=${user.email}&sortOrder=${sortOrder}`);
+        setMarathons(response.data);
       } catch (error) {
         console.error('Error fetching marathons:', error);
       }
     };
 
     fetchMarathons();
-  }, [user.email, sortOrder]);
+  }, [user.email, sortOrder, axiosSecure]);
 
   const handleSortOrderChange = (e) => {
     setSortOrder(e.target.value);
@@ -93,7 +89,7 @@ const My_Marathon_List = () => {
 
   return (
     <div className="container mx-auto mt-10">
-       <Helmet> <title>My Marathon List</title> </Helmet>
+      <Helmet> <title>My Marathon List</title> </Helmet>
       <h2 className="text-2xl font-bold mb-6">My Marathon List</h2>
       <div className="mb-4">
         <label className="block text-gray-700">Sort By</label>
@@ -102,39 +98,41 @@ const My_Marathon_List = () => {
           <option value="desc">Newest to Oldest</option>
         </select>
       </div>
-      <table className="min-w-full bg-white">
-        <thead>
-          <tr>
-            <th className="py-2 px-4 border-b">Title</th>
-            <th className="py-2 px-4 border-b">Location</th>
-            <th className="py-2 px-4 border-b">Start Date</th>
-            <th className="py-2 px-4 border-b">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {marathons.map((marathon) => (
-            <tr key={marathon._id}>
-              <td className="py-2 px-4 border-b">{marathon.title}</td>
-              <td className="py-2 px-4 border-b">{marathon.location}</td>
-              <td className="py-2 px-4 border-b">{marathon.marathonStartDate}</td>
-              <td className="py-2 px-4 border-b">
-                <button
-                  onClick={() => handleUpdate(marathon)}
-                  className="bg-yellow-500 text-white py-1 px-3 rounded mr-2"
-                >
-                  Update
-                </button>
-                <button
-                  onClick={() => handleDelete(marathon._id)}
-                  className="bg-red-500 text-white py-1 px-3 rounded"
-                >
-                  Delete
-                </button>
-              </td>
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white">
+          <thead>
+            <tr>
+              <th className="py-2 px-4 border-b">Title</th>
+              <th className="py-2 px-4 border-b">Location</th>
+              <th className="py-2 px-4 border-b">Start Date</th>
+              <th className="py-2 px-4 border-b">Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {marathons.map((marathon) => (
+              <tr key={marathon._id}>
+                <td className="py-2 px-4 border-b">{marathon.title}</td>
+                <td className="py-2 px-4 border-b">{marathon.location}</td>
+                <td className="py-2 px-4 border-b">{marathon.marathonStartDate}</td>
+                <td className="py-2 px-4 border-b">
+                  <button
+                    onClick={() => handleUpdate(marathon)}
+                    className="bg-yellow-500 text-white py-1 px-3 rounded mr-2"
+                  >
+                    Update
+                  </button>
+                  <button
+                    onClick={() => handleDelete(marathon._id)}
+                    className="bg-red-500 text-white py-1 px-3 rounded"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
