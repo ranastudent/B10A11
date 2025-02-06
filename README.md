@@ -1,4 +1,5 @@
-<img src:"https://i.ibb.co.com/Mx9Lnkkm/B10A11.png" />
+<img src="https://i.ibb.co/Mx9Lnkkm/B10A11.png" alt="Marathon Council Screenshot" />
+
 # Marathon Council
 
 Welcome to the Marathon Council website! This project is designed to help users manage and participate in marathons. Below, you'll find information about the technologies used and the key features of the project.
@@ -26,7 +27,4 @@ Welcome to the Marathon Council website! This project is designed to help users 
 ## Contributing
 
 We welcome contributions to the Marathon Council project! If you'd like to contribute, please fork the repository and create a pull request with your changes.
-
-
-
 Thank you for using Marathon Council! We hope you find it helpful for managing and participating in marathons.
