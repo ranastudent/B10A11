@@ -1,4 +1,5 @@
-<img height="900" src="https://i.ibb.co.com/Mx9Lnkkm/B10A11.png" alt="Marathon Council Screenshot" />
+
+<img height="900" src="https://i.ibb.co/Mx9Lnkkm/B10A11.png" alt="Marathon Council Screenshot" />
 
 # Marathon Council
 
@@ -24,7 +25,64 @@ Welcome to the Marathon Council website! This project is designed to help users 
 4. **Dynamic Titles**: The website title changes dynamically based on the current route using React Helmet.
 5. **Sorting and Searching**: Users can sort marathons based on the created date and search for marathons by title.
 
+## How to Run the Project Locally
+
+To run this project locally, follow these steps:
+
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/your-repo/marathon-council.git
+   cd marathon-council
+   ```
+
+2. **Install Dependencies**:
+   Navigate to both the frontend and backend directories and install the required dependencies.
+   
+   Frontend:
+   ```bash
+   cd frontend
+   npm install
+   ```
+
+   Backend:
+   ```bash
+   cd backend
+   npm install
+   ```
+
+3. **Set Up Environment Variables**:
+   Create a `.env` file in the `backend` directory and add the following environment variables:
+   ```plaintext
+   MONGODB_URI=your_mongodb_connection_string
+   PORT=5000
+   JWT_SECRET=your_jwt_secret
+   ```
+
+4. **Run the Backend Server**:
+   ```bash
+   cd backend
+   npm start
+   ```
+
+   The backend server will start running on `http://localhost:5000`.
+
+5. **Run the Frontend Server**:
+   Open a new terminal window and navigate to the `frontend` directory:
+   ```bash
+   cd frontend
+   npm start
+   ```
+
+   The frontend server will start running on `http://localhost:3000`.
+
+6. **Access the Application**:
+   Open your web browser and go to `http://localhost:3000` to see the application in action.
+
 ## Contributing
 
 We welcome contributions to the Marathon Council project! If you'd like to contribute, please fork the repository and create a pull request with your changes.
+
 Thank you for using Marathon Council! We hope you find it helpful for managing and participating in marathons.
+```
+
+This should provide a clear and detailed guide for users to run the project locally. If you need further assistance or have any more questions, feel free to ask!
