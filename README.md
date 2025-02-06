@@ -77,12 +77,3 @@ To run this project locally, follow these steps:
 
 6. **Access the Application**:
    Open your web browser and go to `http://localhost:3000` to see the application in action.
-
-## Contributing
-
-We welcome contributions to the Marathon Council project! If you'd like to contribute, please fork the repository and create a pull request with your changes.
-
-Thank you for using Marathon Council! We hope you find it helpful for managing and participating in marathons.
-```
-
-This should provide a clear and detailed guide for users to run the project locally. If you need further assistance or have any more questions, feel free to ask!
